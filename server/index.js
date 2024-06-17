@@ -11,8 +11,7 @@ var io = require("socket.io")(server);
 
 //middleware
 app.use(express.json());
-console.log(process.env.mongodb);
-const DB = "mongodb+srv://Plasmicz:Aviral123%23%23@skratch.xf3locd.mongodb.net/"
+const DB = process.env.mongodb;
 
 mongoose.connect(DB).then(()=>{
     console.log("Connection was successful");
