@@ -11,7 +11,7 @@ var io = require("socket.io")(server);
 
 //middleware
 app.use(express.json());
-
+console.log(process.env.mongodb);
 const DB = "mongodb+srv://Plasmicz:Aviral123%23%23@skratch.xf3locd.mongodb.net/"
 
 mongoose.connect(DB).then(()=>{
@@ -21,7 +21,7 @@ mongoose.connect(DB).then(()=>{
 })
 
 io.on('connection',(socket)=>{
-    console.log('connected');
+    console.log('connected from '+socket.id);
     socket.on('create-game',async({nickname,roomname,roomsize,maxrounds})=>{
         try{
             const existingRoom = await Room.findOne({roomname});
@@ -81,6 +81,9 @@ io.on('connection',(socket)=>{
             console.log(err);
         }
 
+    })
+    socket.on('paint',({details,roomName})=>{
+        io.to(roomName).emit('points',{details})
     })
 })
 
